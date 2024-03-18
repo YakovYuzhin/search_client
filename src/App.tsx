@@ -1,5 +1,8 @@
 import { useState } from "react";
-import style from "./App.module.scss";
+//import style from "./App.module.scss";
+import { CardTemplate } from "./components/Card/CardTemplate";
+import { StatisticTemplate } from "./components/Statistic/StatisticTemplate";
+import { SearchBarTemplate } from "./components/SearchBar/SearchBarTemplate";
 
 function App() {
   const [users, setUsers] = useState([
@@ -26,66 +29,26 @@ function App() {
     },
   ]);
 
-  type usersType = (typeof users)[0];
-
-  function calcGenderAmount(arr: Array<usersType>): any {
-    let amount = {
-      w: 0,
-      m: 0,
-    };
-    for (let a of arr) {
-      a.male === "w" ? amount.w++ : amount.m++;
-    }
-    return amount;
-  }
-
-  function calcusersAgeGroups(arr: Array<usersType>): any {
-    let groups = {
-      "20+": 0,
-      "20-": 0,
-    };
-    for (let a of arr) {
-      a.age >= 20 ? groups["20+"]++ : groups["20-"]++;
-    }
-    return groups;
-  }
-
-  function deleteUser(id: number) {
-    let newUsers = users.filter((a) => a.id !== id);
+  function deleteUser(users: any, id: number) {
+    let newUsers = users.filter((a: any) => a.id !== id);
     setUsers(newUsers);
-  }
-
-  function UserCard(props: any) {
-    return (
-      <div className="userCard">
-        <p className="name">{props.name}</p>
-        <p className="mail">{props.mail}</p>
-        <button onClick={() => deleteUser(props.id)}>Delete</button>
-      </div>
-    );
   }
 
   return (
     <>
-      <div className="searchBar">
-        <input type="text" placeholder="Search" />
-        <button>Refresh Users</button>
-      </div>
+      <SearchBarTemplate />
       <div className="main">
-        <div className="users">
-          {users.map((user) => (
-            <UserCard key={user.id} name={user.name} mail={user.mail} id={user.id} />
-          ))}
-        </div>
-        <div className="statistics">
-          <div className="usersAmount">{`All users: ${users.length}`}</div>
-          <div className="usersAgeGroups">{`Old: ${
-            calcusersAgeGroups(users)["20+"]
-          } --- Yung: ${calcusersAgeGroups(users)["20-"]}`}</div>
-          <div className="usersGenderGroups">{`Woman: ${
-            calcGenderAmount(users).w
-          } --- Man: ${calcGenderAmount(users).m}`}</div>
-        </div>
+        {users.map((user) => (
+          <CardTemplate
+            users={users}
+            key={user.id}
+            name={user.name}
+            mail={user.mail}
+            id={user.id}
+            deleteUser={deleteUser}
+          />
+        ))}
+        <StatisticTemplate users={users} />
       </div>
     </>
   );
