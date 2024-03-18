@@ -1,6 +1,6 @@
-import { usersType } from "../types/User";
+import { User } from "../types/User";
 
-export function calcGenderAmount(arr: Array<usersType>): any {
+export function calcGenderAmount(arr: Array<User>): any {
   let amount = {
     w: 0,
     m: 0,
@@ -11,7 +11,7 @@ export function calcGenderAmount(arr: Array<usersType>): any {
   return amount;
 }
 
-export function calcusersAgeGroups(arr: Array<usersType>): any {
+export function calcusersAgeGroups(arr: Array<User>): any {
   let groups = {
     "20+": 0,
     "20-": 0,
